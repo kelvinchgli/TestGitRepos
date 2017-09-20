@@ -1,0 +1,59 @@
+﻿0. opensuse软件源重配置
+使用DVD光盘安装好openSUSE 13.1之后，软件安装源中默认存在一个名称为"openSUSE-13.1-1.10"的软件源，
+这个源的URL实际上是指向DVD光驱的，可是一般情况下我们安装好系统之后，谁会一直把DVD盘放在光驱里面呢？
+这使得我们通过YaST或者zypper安装软件时，总是会浪费时间去检测该源是否可用。
+所以我建议大家把该软件源禁用掉，只有真的需要从光盘安装软件时才激活。 
+另外，对于中国大陆用户来说，要想在软件安装、系统更新升级时获得理想的下载速度，
+就近选择软件源的镜像站点非常重要，不然乌龟爬爬一般的速度会让你对世界失去信心！
+由于我是电信用户，所以搜狐镜像源对我来说是最合适的，每次都能达到近500K的满速下载。
+对于教育网用户，我建议添加上海交大镜像源。 要添加搜狐源并禁用官方源，请执行下述命令：
+
+sudo zypper mr -d openSUSE-13.1-1.10 
+sudo zypper mr -d openSUSE-13.1-Oss openSUSE-13.1-Non-Oss openSUSE-13.1-Update openSUSE-13.1-Update-Non-Oss 
+sudo zypper ar -f http://mirrors.sohu.com/opensuse/distribution/13.1/repo/oss/ openSUSE-13.1-Oss-sohu-mirror 
+sudo zypper ar -f http://mirrors.sohu.com/opensuse/distribution/13.1/repo/non-oss/ openSUSE-13.1-Non-Oss-sohu-mirror 
+sudo zypper ar -f http://mirrors.sohu.com/opensuse/update/13.1/ openSUSE-13.1-Update-sohu-mirror 
+sudo zypper ar -f http://mirrors.sohu.com/opensuse/update/13.1-non-oss/ openSUSE-13.1-Update-Non-Oss-sohu-mirror 
+
+安装完成系统之后进行系统更新，能在第一时间修复openSUSE 13.1发布之后发现的故障和系统漏洞，
+保证系统稳定可靠，免受来自外界的恶意破坏。
+sudo zypper update 
+
+
+1. 使用linux预制的下载工具下载压缩包
+wget http://archive.apache.org/dist/httpd/httpd-2.2.17.tar.gz
+
+2. 解压
+tar xvf httpd-2.2.17.tar.gz
+
+3. 配置httpd安装包
+进入httpd-2.2.17
+./configure --prefix=/usr/local/httpd
+httpd-2.2.17文件夹下的configure是一个可执行文件，用于配置httpd源文件编译的环境变量
+
+4. make && make install
+编译源码，并安装
+
+5. 使用zypper安装subversion
+zypper se subversion // 先查找软件源中subversion相关的程序或组件
+zypper install subversion // 安装subversion工具
+
+6. 创建库
+
+svnadmin create /home/svnroot/repository/test
+使用zypper安装的subversion会被自动配置环境变量，可以直接在bash中执行svnadmin命令
+
+
+6.1 此时会有以下警告
+svn: warning: cannot set LC_CTYPE locale
+svn: warning: environment variable LANG is en_US.UTF-8
+svn: warning: please check that your locale name is correct
+
+解决方法
+echo “export LC_ALL=C” >> /etc/profile
+export LC_ALL=C
+
+6.2 再次创建库
+svnadmin create /home/svnroot/repository/test2
+不会再有警告
+
