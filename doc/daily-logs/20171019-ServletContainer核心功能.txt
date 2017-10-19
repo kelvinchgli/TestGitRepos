@@ -1,0 +1,56 @@
+结论：Servlet容器的核心功能：
+    1. 创建Servlet实例
+    2. 建立了Servlet与url之间的映射关系
+
+第一步：Servlet容器创建Servlet对象
+1. SpringServletContainerInitializer类是Spring框架为实现Servlet容器的实现类
+2. SpringServletContainerInitializer类由tomcat容器创建
+3. DispatcherServlet类是Spring MVC框架对Serlvet的实现，一个DispatcherServlet
+   类的实例，就是一个Servlet对象
+4. DispatcherServlet对象是由SpringServletContainerInitializer这个Servlet容器
+   所创建的，如总结中第1条所说的那样，容器创建对象
+
+第二部：Servlet容器通过上下文配置类中的配置，建立Servlet与url之间的映射关系
+1. WebApplicationInitalizer接口是用于创建上下文，此接口主要定义了三项功能
+   1）配置与DispatcherServlet映射的url
+   2）创建组件所依赖的bean
+   3）创建驱动应用后端的bean
+2. AbstractAnnotationConfigDispatcherServletInitializer类是Spring提供的对
+   WebApplicationInitializer接口的实现类
+3. AbstractAnnotationConfigDispatcherServletInitializer类必须实现三个方法，
+   这三个方法对应WebApplicationInitializer接口的三项功能
+   String[] getServletMappings() ---- 配置与DispatcherServlet映射的url
+   Class<?>[] getServletConfigClasses() ---- 返回如控制器、视图解析器、
+				             以及处理器映射的bean的创建方式
+   Class<?>[] getRootConfigClasses() ---- 返回驱动应用后端的中间层和数据层bean
+                                          的创建方法
+
+结论：Servlet容器根据配置类，创建DispatcherServlet和ContextLoaderListener，前者创建如
+      控制器、视图解析器、处理器映射bean，并将这些bean注入到业务组件中；
+      后者创建驱动应用后端的中间层和数据层bean，并实现bean注入到业务组件中
+
+1. SpringServletContainerInitializer这一Servlet容器，根据配置类
+   AbstractAnnotationConfigDispatcherServletInitalizer中的配置，创建
+   DispatcherServlet和ContextLoaderListener
+2. DispatcherServlet根据AbstractAnnotationConfigDispatcherServletInitalizer中的
+   getServletConfigClasses()定义的bean，创建bean，并实现注入
+3. ContextLoaderListener根据AbstractAnnotationConfigDispatcherServletInitalizer中的
+   getRootConfigClasses()定义的bean，创建bean，并实现注入
+
+
+结论：配置DispatcherServlet的本质：
+      1. 建立DispatcherServlet和其所响应的url之间的映射关系
+      2. 通过配置类中的方法，获取DispatcherServlet所管理的bean的创建方法，
+         创建这些bean，并实现bean的注入
+
+1. 调用AbstractAnnotationConfigDispatcherServletInitalizer的getSerlvetMappings()实现
+   url与DispatcherSerlvet之间映射的建立
+2. 调用AbstractAnnotationConfigDispatcherServletInitalizer的getServletConfigClassess()
+   获取对bean的定义，创建bean，并实现注入
+
+结论4：Servlet容器通过getServletConfigClasses()返回的配置类的方法---configureDefaultServletHandling()
+       方法，配置处理静态资源的servlet，不同于DispatcherServlet的另一个Servlet
+
+1. Servlet容器的功能是创建、配置、管理各个Servlet，DispatcherServlet是用于处理动态资源的Servlet，
+   默认的servlet是用于处理静态资源的
+
