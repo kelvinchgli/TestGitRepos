@@ -1,0 +1,13 @@
+结论：SpringMVC框架中组件主要有一下几类：
+      1. 控制器 Controller
+      2. 视图解析器 ViewResolver
+      3. 处理器映射 HandlerMapping
+
+1. 控制器组件的特征
+   1）控制器的实现类，使用@Controller注解
+   2）控制器的实现类的方法（控制器方法），使用@RequestMapping注解
+
+2. 控制器的作用，描述url及响应方法的映射关系
+   Spring应用上下文以控制器作为输入，创建处理器映射。处理器映射是所有url和响应此url的控制器方法的字典，
+   字典的key是url（@RequestMapping中value的值），value是控制器方法（@RequestMapping所标注的方法）的引用
+
