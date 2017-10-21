@@ -1,0 +1,10 @@
+1. Eclipse Neon3 集成有Maven插件，集成的版本是Maven2，不必再单独安装Maven。单独安装Maven需要配置环境变量
+   可能会对Eclipse中集成的Maven的运行造成影响。在创建Maven webapp时，出现过问题，猜测可能是与重复安装Maven
+   有关。
+
+2. 配置Maven仓库地址。Maven的中央仓库的服务器在国外，国内访问速度很慢。阿里云提供了Maven中央仓库的国内镜像，
+   可以通过settings.xml来配置使用阿里云仓库。
+
+3. 一种可行的配置阿里云仓库的方法是，将本日志文件同级目录下的settings.xml复制eclipse的maven插件的.m2文件夹下，
+   Eclipse集成的maven安装后，本地路径为C:\Users\Administrator\.m2，将settings.xml放到此文件夹下即可
+   然后，重启eclipse即可。
