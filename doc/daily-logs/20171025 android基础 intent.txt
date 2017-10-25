@@ -1,0 +1,10 @@
+总结：android中的每一个Activity是一个UI线程，Intent为android为线程间通信提供的一种实现方式。
+
+1. android中的Activity为一个UI线程，用于渲染，容纳一个屏幕显示；
+2. Intent是用于Activity之间的数据传输，可以理解外线程之间的管道；
+3. Activity之间的的每一次数据传输，需要创建一个Intent对象，因此Intent对象
+   通常被定义为局部变量。Intent对象会有GC来管理其生命周期，当GC判定到
+   Intent对象不再被使用时，也就是Activity之间的数据传输结束时，将
+   销毁Intent对象。下次再进行Activity之间的数据传输，单独在创建一个Intent对象。
+
+总结：android应用的调试很麻烦 !!!
