@@ -1,0 +1,11 @@
+总结：fragment是activity所管理的屏幕视图中的一个区域，fragment的显示托管于activity视图
+      借用activity的上下文来实现消息循环
+
+
+1. fragment仅受activity管理，操作系统不会管理或操作fragment
+
+
+总结：支持库是独立与android系统的第三方开发库，目的是在于android系统松耦合的前提下，实现
+      组件功能，支持库中所实现的功能，android系统也提供了对应的实现方式，只不过android
+      系统提供的实现方式与android系统耦合过于紧密，因此，在开发android应用时，通常会
+      使用支持库来替代android系统原生的实现。
